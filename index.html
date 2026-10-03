@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="id" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ADR — Architecture Decision Records</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            ink: {
+              900: '#0a0a0f',
+              800: '#101018',
+              700: '#16161f',
+              600: '#1e1e2a',
+              500: '#2a2a3a',
+            },
+            violetx: {
+              400: '#a78bfa',
+              500: '#8b5cf6',
+              600: '#7c3aed',
+              700: '#6d28d9',
+            },
+          },
+          animation: {
+            'fade-up': 'fadeUp 0.5s ease both',
+            'glow': 'glow 3s ease-in-out infinite',
+          },
+          keyframes: {
+            fadeUp: {
+              '0%': { opacity: '0', transform: 'translateY(12px)' },
+              '100%': { opacity: '1', transform: 'translateY(0)' },
+            },
+            glow: {
+              '0%, 100%': { opacity: '0.4' },
+              '50%': { opacity: '0.8' },
+            },
+          },
+        },
+      },
+    };
+  </script>
+
+  <style>
+    html { scroll-behavior: smooth; }
+    body {
+      background-color: #0a0a0f;
+      background-image:
+        radial-gradient(60rem 40rem at 15% -10%, rgba(124, 58, 237, 0.18), transparent 60%),
+        radial-gradient(50rem 35rem at 100% 0%, rgba(167, 139, 250, 0.10), transparent 55%),
+        radial-gradient(40rem 30rem at 50% 120%, rgba(109, 40, 217, 0.12), transparent 60%);
+      background-attachment: fixed;
+    }
+    /* custom scrollbar */
+    ::-webkit-scrollbar { width: 10px; height: 10px; }
+    ::-webkit-scrollbar-track { background: #101018; }
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(180deg, #7c3aed, #a78bfa);
+      border-radius: 999px;
+      border: 2px solid #101018;
+    }
+    .gradient-text {
+      background: linear-gradient(135deg, #c4b5fd 0%, #8b5cf6 45%, #a78bfa 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .card-glow {
+      position: relative;
+      isolation: isolate;
+    }
+    .card-glow::before {
+      content: "";
+      position: absolute;
+      inset: -1px;
+      border-radius: inherit;
+      padding: 1px;
+      background: linear-gradient(135deg, rgba(139,92,246,.5), rgba(167,139,250,.15), transparent 70%);
+      -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      opacity: 0;
+      transition: opacity .35s ease;
+      z-index: -1;
+    }
+    .card-glow:hover::before { opacity: 1; }
+    .badge-accepted {
+      background: linear-gradient(135deg, rgba(16,185,129,.15), rgba(16,185,129,.05));
+      border: 1px solid rgba(16,185,129,.35);
+      color: #6ee7b7;
+    }
+    .badge-superseded {
+      background: linear-gradient(135deg, rgba(148,163,184,.15), rgba(148,163,184,.05));
+      border: 1px solid rgba(148,163,184,.3);
+      color: #cbd5e1;
+    }
+    .badge-proposed {
+      background: linear-gradient(135deg, rgba(139,92,246,.18), rgba(139,92,246,.05));
+      border: 1px solid rgba(139,92,246,.4);
+      color: #c4b5fd;
+    }
+    .badge-rejected {
+      background: linear-gradient(135deg, rgba(244,63,94,.15), rgba(244,63,94,.05));
+      border: 1px solid rgba(244,63,94,.35);
+      color: #fda4af;
+    }
+  </style>
+</head>
+
+<body class="font-sans text-slate-200 antialiased min-h-screen">
+
+  <!-- Ambient glow -->
+  <div class="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
+    <div class="absolute -top-40 -left-40 h-[28rem] w-[28rem] rounded-full bg-violetx-700/20 blur-[120px] animate-glow"></div>
+    <div class="absolute top-1/3 -right-40 h-[26rem] w-[26rem] rounded-full bg-violetx-500/10 blur-[120px] animate-glow"></div>
+  </div>
+
+  <!-- ================= HEADER ================= -->
+  <header class="sticky top-0 z-40 border-b border-white/5 bg-ink-900/70 backdrop-blur-xl">
+    <div class="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-4">
+      <a href="#" class="flex items-center gap-3 group">
+        <div class="grid h-10 w-10 place-items-center rounded-xl bg-gradient-to-br from-violetx-500 to-violetx-700 shadow-lg shadow-violetx-700/30 ring-1 ring-white/10">
+          <svg class="h-5 w-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 4h10l6 6v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z"/>
+            <path d="M14 4v6h6"/>
+            <path d="M8 14h8"/><path d="M8 18h5"/>
+          </svg>
+        </div>
+        <div class="leading-tight">
+          <h1 class="text-base font-semibold text-white">Architecture Decision Records</h1>
+          <p class="text-xs text-slate-400">Log keputusan arsitektur — dokumentasi iteratif</p>
+        </div>
+      </a>
+
+      <div class="hidden items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs text-slate-300 sm:flex">
+        <span class="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-400"></span>
+        <span id="totalCount">0</span> ADR terdaftar
+      </div>
+    </div>
+  </header>
+
+  <!-- ================= HERO ================= -->
+  <section class="mx-auto max-w-6xl px-5 pt-12 pb-8 sm:pt-16">
+    <div class="animate-fade-up">
+      <span class="inline-flex items-center gap-2 rounded-full border border-violetx-500/30 bg-violetx-500/10 px-3 py-1 text-xs font-medium text-violetx-400">
+        <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+        Iterative Decision Log
+      </span>
+      <h2 class="mt-5 text-3xl font-bold tracking-tight text-white sm:text-4xl">
+        Semua keputusan arsitektur,<br class="hidden sm:block" />
+        <span class="gradient-text">terdokumentasi & dapat dilacak.</span>
+      </h2>
+      <p class="mt-4 max-w-2xl text-sm leading-relaxed text-slate-400 sm:text-base">
+        Setiap ADR bersifat <em>immutable</em> — keputusan lama tetap <span class="text-emerald-400 font-medium">Accepted</span> sebagai jejak sejarah,
+        dan digantikan oleh ADR baru melalui penanda <span class="text-violetx-400 font-medium">Supersedes / Superseded by</span>.
+      </p>
+    </div>
+  </section>
+
+  <!-- ================= SEARCH & FILTER ================= -->
+  <section class="mx-auto max-w-6xl px-5 pb-6">
+    <div class="flex flex-col gap-3 sm:flex-row sm:items-center">
+      <!-- search -->
+      <div class="relative flex-1">
+        <svg class="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        <input
+          id="searchInput"
+          type="text"
+          placeholder="Cari judul, nomor ADR, atau tag..."
+          class="w-full rounded-xl border border-white/10 bg-ink-700/60 py-2.5 pl-10 pr-4 text-sm text-slate-200 placeholder-slate-500 outline-none transition focus:border-violetx-500/60 focus:bg-ink-700 focus:ring-2 focus:ring-violetx-500/20"
+        />
+      </div>
+
+      <!-- project filter -->
+      <div class="flex flex-wrap gap-2" id="projectFilters">
+        <button data-project="all" class="filter-btn active rounded-xl border border-violetx-500/50 bg-violetx-500/15 px-3.5 py-2 text-xs font-medium text-violetx-400 transition">Semua</button>
+        <button data-project="management-sales" class="filter-btn rounded-xl border border-white/10 bg-white/5 px-3.5 py-2 text-xs font-medium text-slate-300 transition hover:border-violetx-500/40 hover:text-white">management-sales</button>
+        <button data-project="neurabook" class="filter-btn rounded-xl border border-white/10 bg-white/5 px-3.5 py-2 text-xs font-medium text-slate-300 transition hover:border-violetx-500/40 hover:text-white">neurabook</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= CONTENT ================= -->
+  <main class="mx-auto max-w-6xl px-5 pb-20">
+    <div id="adrContainer" class="space-y-10"></div>
+
+    <!-- empty state -->
+    <div id="emptyState" class="hidden rounded-2xl border border-dashed border-white/10 bg-white/[0.02] p-12 text-center">
+      <div class="mx-auto grid h-14 w-14 place-items-center rounded-full bg-violetx-500/10 text-violetx-400">
+        <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+      </div>
+      <p class="mt-4 text-sm font-medium text-slate-300">Tidak ada ADR yang cocok</p>
+      <p class="mt-1 text-xs text-slate-500">Coba kata kunci lain atau ubah filter project.</p>
+    </div>
+  </main>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="border-t border-white/5 bg-ink-900/60">
+    <div class="mx-auto flex max-w-6xl flex-col items-center justify-between gap-3 px-5 py-6 text-xs text-slate-500 sm:flex-row">
+      <p>ADR Log · <span class="gradient-text font-medium">immutable, iterative, traceable</span></p>
+      <p class="font-mono">Last updated: <span id="lastUpdated"></span></p>
+    </div>
+  </footer>
+
+  <!-- ================= DATA + LOGIC ================= -->
+  <script>
+    /* =========================================================
+       DATA ADR
+       Tambahkan / ubah entri di sini.
+       - project : "management-sales" | "neurabook"
+       - id      : nomor ADR, mis. "ADR-001"
+       - title   : judul keputusan
+       - status  : "Accepted" | "Proposed" | "Rejected" | "Superseded"
+       - date    : tanggal keputusan (YYYY-MM-DD)
+       - tags    : array string
+       - summary : ringkasan 1-2 kalimat
+       - url     : link ke file .md di GitHub (boleh relative: "adr/management-sales/ADR-1001-xxx.md")
+       - supersedes     : (opsional) id ADR yang digantikan
+       - supersededBy   : (opsional) id ADR yang menggantikan
+       ========================================================= */
+    const ADR_DATA = [
+      // ---------- management-sales ----------
+      {
+        project: "management-sales",
+        id: "ADR-1001",
+        title: "Desain Fitur Return Product",
+        status: "Accepted",
+        date: "2026-09-01",
+        tags: ["sales", "return-product", "sppb", "data-structure"],
+        summary: "Mengubah input retur dari upload multi-image menjadi input terstruktur per item produk dengan sistem klasifikasi yang fleksibel per SPPB.",
+        url: "adr/management-sales/ADR-1001-return-product-feature.md"
+      },
+      {
+        project: "management-sales",
+        id: "ADR-1002",
+        title: "Offline-First Form untuk Return Product",
+        status: "Accepted",
+        date: "2026-09-15",
+        tags: ["offline-first", "return-product", "local-storage", "sync"],
+        summary: "Menerapkan arsitektur offline-first dengan local storage dan background sync agar data dan foto retur tidak hilang akibat koneksi tidak stabil.",
+        url: "adr/management-sales/ADR-1002-offline-first-form.md"
+      },
+
+      // ---------- neurabook ----------
+      {
+        project: "neurabook",
+        id: "ADR-0001",
+        title: "Offline DB-First (Ditolak)",
+        status: "Rejected",
+        date: "2025-09-01",
+        tags: ["architecture", "storage", "offline"],
+        summary: "Menolak pendekatan offline DB-first sebagai arsitektur utama untuk menghindari risiko kehilangan data permanen dan biaya maintenance jangka panjang.",
+        url: "adr/neurabook/0001-offline-db-first-rejected.md"
+      },
+      {
+        project: "neurabook",
+        id: "ADR-0002",
+        title: "Server-Based dengan Laravel + Filament + Orion",
+        status: "Accepted",
+        date: "2025-12-01",
+        tags: ["backend", "framework", "api", "laravel"],
+        summary: "Membangun backend NeuraBook menggunakan Laravel, Filament untuk admin panel, dan Orion untuk auto-generate REST API sebagai single source of truth.",
+        url: "adr/neurabook/0002-server-based-laravel-filament-orion.md"
+      },
+      {
+        project: "neurabook",
+        id: "ADR-0003",
+        title: "Local Cache untuk Data Referensi",
+        status: "Accepted",
+        date: "2026-01-01",
+        tags: ["caching", "performance", "ux", "local-storage"],
+        summary: "Menyimpan data referensi di local storage client untuk memangkas latency render, menghemat bandwidth, dan mengurangi beban request ke server.",
+        url: "adr/neurabook/0003-local-cache-for-reference-data.md"
+      },
+      {
+        project: "neurabook",
+        id: "ADR-0004",
+        title: "AI-Based Natural Language Input",
+        status: "Accepted",
+        date: "2026-01-15",
+        tags: ["ux", "ai", "input", "nlp"],
+        summary: "Menyediakan input berbasis teks bebas atau suara di home screen yang otomatis di-parse oleh AI menjadi transaksi terstruktur.",
+        url: "adr/neurabook/0004-ai-based-natural-language-input.md"
+      }
+    ];
+
+    /* ---------- Project meta (label & warna aksen) ---------- */
+    const PROJECT_META = {
+      "management-sales": {
+        label: "Management Sales",
+        desc: "Domain sales, retur produk, dan operasional lapangan.",
+        accent: "from-violetx-500 to-fuchsia-500",
+        icon: '<path d="M3 3v18h18"/><path d="m7 14 4-4 3 3 5-6"/>'
+      },
+      "neurabook": {
+        label: "Neurabook",
+        desc: "Platform pencatatan keuangan cerdas berbasis AI & server architecture.",
+        accent: "from-violetx-600 to-indigo-500",
+        icon: '<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z"/>'
+      }
+    };
+
+    /* ---------- Helpers ---------- */
+    const statusClass = (status) => ({
+      "Accepted": "badge-accepted",
+      "Superseded": "badge-superseded",
+      "Proposed": "badge-proposed",
+      "Rejected": "badge-rejected",
+    }[status] || "badge-superseded");
+
+    const formatDate = (iso) => {
+      const d = new Date(iso + "T00:00:00");
+      return d.toLocaleDateString("id-ID", { day: "2-digit", month: "short", year: "numeric" });
+    };
+
+    const escapeHtml = (str = "") =>
+      str.replace(/[&<>"']/g, (m) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[m]));
+
+    /* ---------- State ---------- */
+    let activeProject = "all";
+    let searchTerm = "";
+
+    /* ---------- Render ---------- */
+    function render() {
+      const container = document.getElementById("adrContainer");
+      const emptyState = document.getElementById("emptyState");
+
+      const filtered = ADR_DATA.filter((adr) => {
+        const matchProject = activeProject === "all" || adr.project === activeProject;
+        const haystack = `${adr.id} ${adr.title} ${adr.tags.join(" ")} ${adr.summary}`.toLowerCase();
+        const matchSearch = haystack.includes(searchTerm.toLowerCase());
+        return matchProject && matchSearch;
+      });
+
+      if (filtered.length === 0) {
+        container.innerHTML = "";
+        emptyState.classList.remove("hidden");
+        document.getElementById("totalCount").textContent = 0;
+        return;
+      }
+      emptyState.classList.add("hidden");
+
+      // group by project
+      const grouped = filtered.reduce((acc, adr) => {
+        (acc[adr.project] ||= []).push(adr);
+        return acc;
+      }, {});
+
+      // sort each group by date desc
+      Object.values(grouped).forEach((arr) => arr.sort((a, b) => (a.date < b.date ? 1 : -1)));
+
+      let html = "";
+      let counter = 0;
+
+      for (const [project, items] of Object.entries(grouped)) {
+        const meta = PROJECT_META[project] || { label: project, desc: "", accent: "from-violetx-500 to-violetx-700", icon: "" };
+        html += `
+          <section class="animate-fade-up">
+            <!-- Project header -->
+            <div class="mb-5 flex items-center gap-4">
+              <div class="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-gradient-to-br ${meta.accent} shadow-lg shadow-violetx-700/25 ring-1 ring-white/10">
+                <svg class="h-5 w-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${meta.icon}</svg>
+              </div>
+              <div class="min-w-0">
+                <h3 class="flex items-center gap-2 text-lg font-semibold text-white">
+                  ${escapeHtml(meta.label)}
+                  <span class="rounded-full border border-white/10 bg-white/5 px-2 py-0.5 font-mono text-[10px] font-normal text-slate-400">${escapeHtml(project)}</span>
+                </h3>
+                <p class="text-xs text-slate-400">${escapeHtml(meta.desc)} · ${items.length} ADR</p>
+              </div>
+            </div>
+
+            <!-- Cards -->
+            <div class="grid gap-4 md:grid-cols-2">
+              ${items.map((adr) => {
+                counter++;
+                const tags = adr.tags.map((t) => `<span class="rounded-md border border-white/5 bg-white/5 px-2 py-0.5 font-mono text-[10px] text-slate-400">#${escapeHtml(t)}</span>`).join("");
+                const supersedes = adr.supersedes
+                  ? `<span class="inline-flex items-center gap-1 rounded-md border border-amber-500/30 bg-amber-500/10 px-2 py-0.5 text-[10px] font-medium text-amber-300">
+                       <svg class="h-3 w-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 14 4 9l5-5"/><path d="M4 9h10a6 6 0 0 1 6 6v5"/></svg>
+                       supersedes ${escapeHtml(adr.supersedes)}
+                     </span>`
+                  : "";
+                const supersededBy = adr.supersededBy
+                  ? `<span class="inline-flex items-center gap-1 rounded-md border border-slate-500/30 bg-slate-500/10 px-2 py-0.5 text-[10px] font-medium text-slate-300">
+                       <svg class="h-3 w-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 10 5 5-5 5"/><path d="M20 15H10a6 6 0 0 1-6-6V4"/></svg>
+                       superseded by ${escapeHtml(adr.supersededBy)}
+                     </span>`
+                  : "";
+
+                return `
+                  <a href="${escapeHtml(adr.url)}"
+                     class="card-glow group relative flex flex-col gap-3 rounded-2xl border border-white/5 bg-ink-700/50 p-5 transition duration-300 hover:-translate-y-1 hover:bg-ink-700/80">
+
+                    <!-- top row -->
+                    <div class="flex items-start justify-between gap-3">
+                      <div class="flex items-center gap-2">
+                        <span class="font-mono text-xs font-medium text-violetx-400">${escapeHtml(adr.id)}</span>
+                        <span class="h-1 w-1 rounded-full bg-slate-600"></span>
+                        <span class="text-xs text-slate-500">${formatDate(adr.date)}</span>
+                      </div>
+                      <span class="shrink-0 rounded-full px-2.5 py-0.5 text-[10px] font-semibold ${statusClass(adr.status)}">${escapeHtml(adr.status)}</span>
+                    </div>
+
+                    <!-- title -->
+                    <h4 class="text-[15px] font-semibold leading-snug text-white transition group-hover:text-violetx-400">
+                      ${escapeHtml(adr.title)}
+                    </h4>
+
+                    <!-- summary -->
+                    <p class="line-clamp-2 text-xs leading-relaxed text-slate-400">${escapeHtml(adr.summary)}</p>
+
+                    <!-- tags -->
+                    <div class="flex flex-wrap gap-1.5">${tags}</div>
+
+                    <!-- supersede relations -->
+                    ${(supersedes || supersededBy) ? `<div class="flex flex-wrap gap-1.5 border-t border-white/5 pt-3">${supersedes}${supersededBy}</div>` : ""}
+
+                    <!-- footer -->
+                    <div class="mt-auto flex items-center justify-between border-t border-white/5 pt-3">
+                      <span class="font-mono text-[10px] text-slate-500">${escapeHtml(adr.project)}/${escapeHtml(adr.id.toLowerCase())}</span>
+                      <span class="inline-flex items-center gap-1 text-[11px] font-medium text-slate-400 transition group-hover:text-violetx-400">
+                        Baca ADR
+                        <svg class="h-3.5 w-3.5 transition group-hover:translate-x-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                      </span>
+                    </div>
+                  </a>
+                `;
+              }).join("")}
+            </div>
+          </section>
+        `;
+      }
+
+      container.innerHTML = html;
+      document.getElementById("totalCount").textContent = counter;
+    }
+
+    /* ---------- Events ---------- */
+    document.getElementById("searchInput").addEventListener("input", (e) => {
+      searchTerm = e.target.value;
+      render();
+    });
+
+    document.getElementById("projectFilters").addEventListener("click", (e) => {
+      const btn = e.target.closest(".filter-btn");
+      if (!btn) return;
+      activeProject = btn.dataset.project;
+
+      document.querySelectorAll(".filter-btn").forEach((b) => {
+        b.classList.remove("active", "border-violetx-500/50", "bg-violetx-500/15", "text-violetx-400");
+        b.classList.add("border-white/10", "bg-white/5", "text-slate-300");
+      });
+      btn.classList.add("active", "border-violetx-500/50", "bg-violetx-500/15", "text-violetx-400");
+      btn.classList.remove("border-white/10", "bg-white/5", "text-slate-300");
+
+      render();
+    });
+
+    /* ---------- Init ---------- */
+    document.getElementById("lastUpdated").textContent = new Date().toLocaleDateString("id-ID", {
+      day: "2-digit", month: "long", year: "numeric",
+    });
+    render();
+  </script>
+</body>
+</html>
