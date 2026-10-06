@@ -8,7 +8,7 @@
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
 
   <!-- Tailwind -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -23,6 +23,7 @@
           },
           colors: {
             ink: {
+              950: '#07070b',
               900: '#0a0a0f',
               800: '#101018',
               700: '#16161f',
@@ -37,17 +38,17 @@
             },
           },
           animation: {
-            'fade-up': 'fadeUp 0.5s ease both',
-            'glow': 'glow 3s ease-in-out infinite',
+            'fade-up': 'fadeUp 0.4s ease both',
+            'glow': 'glow 4s ease-in-out infinite',
           },
           keyframes: {
             fadeUp: {
-              '0%': { opacity: '0', transform: 'translateY(12px)' },
+              '0%': { opacity: '0', transform: 'translateY(10px)' },
               '100%': { opacity: '1', transform: 'translateY(0)' },
             },
             glow: {
-              '0%, 100%': { opacity: '0.4' },
-              '50%': { opacity: '0.8' },
+              '0%, 100%': { opacity: '0.35' },
+              '50%': { opacity: '0.75' },
             },
           },
         },
@@ -66,7 +67,7 @@
       background-attachment: fixed;
     }
     /* custom scrollbar */
-    ::-webkit-scrollbar { width: 10px; height: 10px; }
+    ::-webkit-scrollbar { width: 9px; height: 9px; }
     ::-webkit-scrollbar-track { background: #101018; }
     ::-webkit-scrollbar-thumb {
       background: linear-gradient(180deg, #7c3aed, #a78bfa);
@@ -94,35 +95,15 @@
       -webkit-mask-composite: xor;
       mask-composite: exclude;
       opacity: 0;
-      transition: opacity .35s ease;
+      transition: opacity .3s ease;
       z-index: -1;
     }
     .card-glow:hover::before { opacity: 1; }
-    .badge-accepted {
-      background: linear-gradient(135deg, rgba(16,185,129,.15), rgba(16,185,129,.05));
-      border: 1px solid rgba(16,185,129,.35);
-      color: #6ee7b7;
-    }
-    .badge-superseded {
-      background: linear-gradient(135deg, rgba(148,163,184,.15), rgba(148,163,184,.05));
-      border: 1px solid rgba(148,163,184,.3);
-      color: #cbd5e1;
-    }
-    .badge-proposed {
-      background: linear-gradient(135deg, rgba(139,92,246,.18), rgba(139,92,246,.05));
-      border: 1px solid rgba(139,92,246,.4);
-      color: #c4b5fd;
-    }
-    .badge-rejected {
-      background: linear-gradient(135deg, rgba(244,63,94,.15), rgba(244,63,94,.05));
-      border: 1px solid rgba(244,63,94,.35);
-      color: #fda4af;
-    }
 
     /* ====== Markdown Preview Styles ====== */
     .markdown-body {
-      font-size: 0.875rem;
-      line-height: 1.7;
+      font-size: 0.9rem;
+      line-height: 1.75;
       color: #cbd5e1;
       word-wrap: break-word;
     }
@@ -130,116 +111,149 @@
     .markdown-body h2,
     .markdown-body h3,
     .markdown-body h4 {
-      color: #f1f5f9;
+      color: #f8fafc;
       font-weight: 600;
-      margin-top: 1.5em;
+      margin-top: 1.6em;
       margin-bottom: 0.6em;
-      line-height: 1.3;
+      line-height: 1.35;
     }
-    .markdown-body h1 { font-size: 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 0.3em; }
-    .markdown-body h2 { font-size: 1.25rem; border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom: 0.25em; }
-    .markdown-body h3 { font-size: 1.05rem; }
-    .markdown-body h4 { font-size: 0.95rem; }
-    .markdown-body p { margin-bottom: 1em; }
+    .markdown-body h1:first-child,
+    .markdown-body h2:first-child {
+      margin-top: 0;
+    }
+    .markdown-body h1 {
+      font-size: 1.6rem;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      padding-bottom: 0.4em;
+    }
+    .markdown-body h2 {
+      font-size: 1.3rem;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      padding-bottom: 0.3em;
+    }
+    .markdown-body h3 { font-size: 1.1rem; }
+    .markdown-body h4 { font-size: 0.98rem; }
+    .markdown-body p { margin-bottom: 1.1em; }
     .markdown-body a { color: #a78bfa; text-decoration: none; }
-    .markdown-body a:hover { text-decoration: underline; }
+    .markdown-body a:hover { text-decoration: underline; color: #c4b5fd; }
+    .markdown-body strong { color: #f8fafc; font-weight: 600; }
     .markdown-body ul,
     .markdown-body ol {
-      margin-bottom: 1em;
+      margin-bottom: 1.1em;
       padding-left: 1.6em;
     }
     .markdown-body ul { list-style: disc; }
     .markdown-body ol { list-style: decimal; }
-    .markdown-body li { margin-bottom: 0.3em; }
+    .markdown-body li { margin-bottom: 0.35em; }
     .markdown-body li > ul,
     .markdown-body li > ol { margin-top: 0.3em; margin-bottom: 0; }
     .markdown-body blockquote {
-      border-left: 3px solid #7c3aed;
-      padding-left: 1em;
-      margin: 1em 0;
-      color: #94a3b8;
-      background: rgba(124,58,237,0.06);
-      border-radius: 0 0.375rem 0.375rem 0;
-      padding: 0.5em 1em;
+      border-left: 3px solid #8b5cf6;
+      margin: 1.25em 0;
+      color: #cbd5e1;
+      background: rgba(124, 58, 237, 0.08);
+      border-radius: 0 0.5rem 0.5rem 0;
+      padding: 0.75em 1.1em;
     }
-    .markdown-body code {
+    .markdown-body blockquote p:last-child { margin-bottom: 0; }
+    .markdown-body :not(pre) > code {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.8em;
-      background: rgba(255,255,255,0.07);
+      font-size: 0.82em;
+      background: rgba(139, 92, 246, 0.12);
+      border: 1px solid rgba(139, 92, 246, 0.25);
+      color: #c4b5fd;
       padding: 0.15em 0.4em;
-      border-radius: 0.25em;
-      color: #e2e8f0;
+      border-radius: 0.3em;
     }
     .markdown-body pre {
-      background: #0d0d15;
-      border: 1px solid rgba(255,255,255,0.06);
+      background: #0d0d15 !important;
+      border: 1px solid rgba(255, 255, 255, 0.08);
       border-radius: 0.75rem;
-      padding: 1em;
+      padding: 1em 1.25em;
       overflow-x: auto;
-      margin-bottom: 1em;
+      margin: 1.25em 0;
     }
     .markdown-body pre code {
-      background: transparent;
-      padding: 0;
-      font-size: 0.8em;
-      color: #e2e8f0;
+      background: transparent !important;
+      padding: 0 !important;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.82rem;
+      line-height: 1.6;
     }
     .markdown-body table {
       width: 100%;
-      border-collapse: collapse;
-      margin-bottom: 1em;
-      font-size: 0.8rem;
+      border-collapse: separate;
+      border-spacing: 0;
+      margin: 1.25em 0;
+      font-size: 0.84rem;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 0.5rem;
+      overflow: hidden;
     }
     .markdown-body th,
     .markdown-body td {
-      border: 1px solid rgba(255,255,255,0.08);
-      padding: 0.5em 0.75em;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      border-right: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 0.65em 0.9em;
       text-align: left;
     }
+    .markdown-body th:last-child,
+    .markdown-body td:last-child {
+      border-right: none;
+    }
+    .markdown-body tr:last-child td {
+      border-bottom: none;
+    }
     .markdown-body th {
-      background: rgba(255,255,255,0.04);
+      background: rgba(255, 255, 255, 0.05);
       font-weight: 600;
-      color: #e2e8f0;
+      color: #f1f5f9;
+    }
+    .markdown-body tr:hover td {
+      background: rgba(255, 255, 255, 0.02);
     }
     .markdown-body hr {
       border: none;
-      border-top: 1px solid rgba(255,255,255,0.08);
-      margin: 1.5em 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      margin: 1.75em 0;
     }
     .markdown-body img {
       max-width: 100%;
       border-radius: 0.5rem;
     }
+
     /* Modal transition */
     .modal-enter {
       opacity: 0;
-      transform: scale(0.96);
+      transform: scale(0.97);
     }
     .modal-enter-active {
       opacity: 1;
       transform: scale(1);
-      transition: opacity 0.25s ease, transform 0.25s ease;
+      transition: opacity 0.22s ease, transform 0.22s ease;
     }
   </style>
 
-  <!-- Markdown & Sanitizer CDN -->
+  <!-- Markdown, Sanitizer & Code Highlighting CDN -->
   <script src="https://cdn.jsdelivr.net/npm/marked@12.0.2/marked.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.6/dist/purify.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/styles/atom-one-dark.min.css" />
+  <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/highlight.min.js"></script>
 </head>
 
 <body class="font-sans text-slate-200 antialiased min-h-screen">
 
-  <!-- Ambient glow -->
+  <!-- Ambient glow background -->
   <div class="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
-    <div class="absolute -top-40 -left-40 h-[28rem] w-[28rem] rounded-full bg-violetx-700/20 blur-[120px] animate-glow"></div>
-    <div class="absolute top-1/3 -right-40 h-[26rem] w-[26rem] rounded-full bg-violetx-500/10 blur-[120px] animate-glow"></div>
+    <div class="absolute -top-40 -left-40 h-[30rem] w-[30rem] rounded-full bg-violetx-700/20 blur-[130px] animate-glow"></div>
+    <div class="absolute top-1/3 -right-40 h-[28rem] w-[28rem] rounded-full bg-violetx-500/10 blur-[130px] animate-glow"></div>
   </div>
 
   <!-- ================= HEADER ================= -->
-  <header class="sticky top-0 z-40 border-b border-white/5 bg-ink-900/70 backdrop-blur-xl">
-    <div class="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-4">
+  <header class="sticky top-0 z-40 border-b border-white/5 bg-ink-900/75 backdrop-blur-xl">
+    <div class="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-3.5">
       <a href="#" class="flex items-center gap-3 group">
-        <div class="grid h-10 w-10 place-items-center rounded-xl bg-gradient-to-br from-violetx-500 to-violetx-700 shadow-lg shadow-violetx-700/30 ring-1 ring-white/10">
+        <div class="grid h-10 w-10 place-items-center rounded-xl bg-gradient-to-br from-violetx-500 to-violetx-700 shadow-lg shadow-violetx-700/30 ring-1 ring-white/10 transition group-hover:scale-105">
           <svg class="h-5 w-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M4 4h10l6 6v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z"/>
             <path d="M14 4v6h6"/>
@@ -247,638 +261,719 @@
           </svg>
         </div>
         <div class="leading-tight">
-          <h1 class="text-base font-semibold text-white">Architecture Decision Records</h1>
-          <p class="text-xs text-slate-400">Log keputusan arsitektur — dokumentasi iteratif</p>
+          <h1 class="text-base font-semibold text-white tracking-tight">Architecture Decision Records</h1>
+          <p class="text-xs text-slate-400">Log keputusan arsitektur — terdeteksi otomatis</p>
         </div>
       </a>
 
-      <div class="hidden items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs text-slate-300 sm:flex">
-        <span class="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-400"></span>
-        <span id="totalCount">0</span> ADR terdaftar
+      <div class="flex items-center gap-2">
+        <div class="flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs text-slate-300">
+          <span class="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-400"></span>
+          <span id="totalAdrCount">0</span> Dokumen
+        </div>
+        <div class="hidden sm:flex items-center gap-1.5 rounded-full border border-violetx-500/30 bg-violetx-500/10 px-3 py-1.5 text-xs text-violetx-300">
+          <span id="totalFolderCount">0</span> Folder
+        </div>
       </div>
     </div>
   </header>
 
   <!-- ================= HERO ================= -->
-  <section class="mx-auto max-w-6xl px-5 pt-12 pb-8 sm:pt-16">
+  <section class="mx-auto max-w-6xl px-5 pt-10 pb-7 sm:pt-14 sm:pb-9">
     <div class="animate-fade-up">
       <span class="inline-flex items-center gap-2 rounded-full border border-violetx-500/30 bg-violetx-500/10 px-3 py-1 text-xs font-medium text-violetx-400">
         <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
-        Iterative Decision Log
+        Auto-Detected Decision Logs
       </span>
-      <h2 class="mt-5 text-3xl font-bold tracking-tight text-white sm:text-4xl">
+      <h2 class="mt-4 text-3xl font-bold tracking-tight text-white sm:text-4xl">
         Semua keputusan arsitektur,<br class="hidden sm:block" />
-        <span class="gradient-text">terdokumentasi & dapat dilacak.</span>
+        <span class="gradient-text">langsung terbaca & siap dipelajari.</span>
       </h2>
-      <p class="mt-4 max-w-2xl text-sm leading-relaxed text-slate-400 sm:text-base">
-        Setiap ADR bersifat <em>immutable</em> — keputusan lama tetap <span class="text-emerald-400 font-medium">Accepted</span> sebagai jejak sejarah,
-        dan digantikan oleh ADR baru melalui penanda <span class="text-violetx-400 font-medium">Supersedes / Superseded by</span>.
+      <p class="mt-3 max-w-2xl text-sm leading-relaxed text-slate-400 sm:text-base">
+        Folder dan file markdown di <code class="font-mono text-violetx-300">adr/</code> terdeteksi secara dinamis.
+        Klik pada nama file untuk membaca pratinjau dokumen secara instan.
       </p>
     </div>
   </section>
 
-  <!-- ================= SEARCH & FILTER ================= -->
+  <!-- ================= SEARCH & FOLDER FILTER ================= -->
   <section class="mx-auto max-w-6xl px-5 pb-6">
     <div class="flex flex-col gap-3 sm:flex-row sm:items-center">
-      <!-- search -->
+      <!-- Search input -->
       <div class="relative flex-1">
-        <svg class="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        <svg class="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
+        </svg>
         <input
           id="searchInput"
           type="text"
-          placeholder="Cari judul, nomor ADR, atau tag..."
+          placeholder="Cari nama ADR atau folder..."
           class="w-full rounded-xl border border-white/10 bg-ink-700/60 py-2.5 pl-10 pr-4 text-sm text-slate-200 placeholder-slate-500 outline-none transition focus:border-violetx-500/60 focus:bg-ink-700 focus:ring-2 focus:ring-violetx-500/20"
         />
       </div>
 
-      <!-- project filter -->
-      <div class="flex flex-wrap gap-2" id="projectFilters">
-        <button data-project="all" class="filter-btn active rounded-xl border border-violetx-500/50 bg-violetx-500/15 px-3.5 py-2 text-xs font-medium text-violetx-400 transition">Semua</button>
-        <button data-project="management-sales" class="filter-btn rounded-xl border border-white/10 bg-white/5 px-3.5 py-2 text-xs font-medium text-slate-300 transition hover:border-violetx-500/40 hover:text-white">management-sales</button>
-        <button data-project="neurabook" class="filter-btn rounded-xl border border-white/10 bg-white/5 px-3.5 py-2 text-xs font-medium text-slate-300 transition hover:border-violetx-500/40 hover:text-white">neurabook</button>
+      <!-- Dynamic folder filter buttons -->
+      <div class="flex flex-wrap gap-2" id="folderFilters">
+        <button data-folder="all" class="folder-filter-btn active rounded-xl border border-violetx-500/50 bg-violetx-500/15 px-3.5 py-2 text-xs font-medium text-violetx-400 transition">
+          Semua
+        </button>
       </div>
     </div>
   </section>
 
-  <!-- ================= CONTENT ================= -->
+  <!-- ================= MAIN CONTENT (SECTIONS) ================= -->
   <main class="mx-auto max-w-6xl px-5 pb-20">
-    <div id="adrContainer" class="space-y-10"></div>
+    <!-- Loading state while detecting folders & files -->
+    <div id="loadingState" class="flex flex-col items-center justify-center py-20 text-slate-400 animate-fade-up">
+      <svg class="h-8 w-8 animate-spin text-violetx-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M21 12a9 9 0 1 1-6.219-8.56"/>
+      </svg>
+      <p class="mt-3 text-sm font-medium text-slate-300">Mendeteksi folder dan file ADR...</p>
+      <p class="mt-1 font-mono text-xs text-slate-500">Membaca struktur direktori adr/</p>
+    </div>
 
-    <!-- empty state -->
+    <!-- Container for dynamic sections -->
+    <div id="sectionsContainer" class="hidden space-y-10"></div>
+
+    <!-- Empty search result state -->
     <div id="emptyState" class="hidden rounded-2xl border border-dashed border-white/10 bg-white/[0.02] p-12 text-center">
       <div class="mx-auto grid h-14 w-14 place-items-center rounded-full bg-violetx-500/10 text-violetx-400">
         <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
       </div>
-      <p class="mt-4 text-sm font-medium text-slate-300">Tidak ada ADR yang cocok</p>
-      <p class="mt-1 text-xs text-slate-500">Coba kata kunci lain atau ubah filter project.</p>
+      <p class="mt-4 text-sm font-medium text-slate-300">Tidak ada dokumen yang cocok</p>
+      <p class="mt-1 text-xs text-slate-500">Coba gunakan kata kunci pencarian lain atau pilih tab filter folder yang berbeda.</p>
     </div>
   </main>
 
   <!-- ================= FOOTER ================= -->
   <footer class="border-t border-white/5 bg-ink-900/60">
     <div class="mx-auto flex max-w-6xl flex-col items-center justify-between gap-3 px-5 py-6 text-xs text-slate-500 sm:flex-row">
-      <p>ADR Log · <span class="gradient-text font-medium">immutable, iterative, traceable</span></p>
-      <p class="font-mono">Last updated: <span id="lastUpdated"></span></p>
+      <p>ADR Log · <span class="gradient-text font-medium">auto-detected, iterative, traceable</span></p>
+      <p class="font-mono">Terakhir diperbarui: <span id="lastUpdated"></span></p>
     </div>
   </footer>
 
   <!-- ================= PREVIEW MODAL ================= -->
-  <div id="previewModal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 sm:p-6">
+  <div id="previewModal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 sm:p-6" role="dialog" aria-modal="true">
     <!-- Backdrop -->
-    <div id="previewBackdrop" class="absolute inset-0 bg-black/70 backdrop-blur-sm"></div>
+    <div id="previewBackdrop" class="absolute inset-0 bg-black/75 backdrop-blur-sm transition-opacity"></div>
 
     <!-- Modal panel -->
-    <div id="previewPanel" class="relative flex max-h-[90vh] w-full max-w-3xl flex-col overflow-hidden rounded-2xl border border-white/10 bg-ink-800/95 shadow-2xl shadow-violetx-700/20 backdrop-blur-xl">
+    <div id="previewPanel" class="relative flex max-h-[90vh] w-full max-w-3xl flex-col overflow-hidden rounded-2xl border border-white/10 bg-ink-800/95 shadow-2xl shadow-violetx-700/25 backdrop-blur-xl">
       <!-- Header -->
       <div class="flex items-start justify-between gap-4 border-b border-white/5 px-5 py-4">
-        <div class="min-w-0">
+        <div class="min-w-0 flex-1">
           <div class="flex items-center gap-2">
-            <span id="previewId" class="font-mono text-xs font-medium text-violetx-400"></span>
+            <span id="previewFolderBadge" class="rounded-md border border-violetx-500/30 bg-violetx-500/10 px-2 py-0.5 font-mono text-[11px] font-medium text-violetx-300"></span>
             <span class="h-1 w-1 rounded-full bg-slate-600"></span>
-            <span id="previewDate" class="text-xs text-slate-500"></span>
-            <span id="previewStatus" class="ml-1 shrink-0 rounded-full px-2.5 py-0.5 text-[10px] font-semibold"></span>
+            <span id="previewFilePath" class="truncate font-mono text-[11px] text-slate-400"></span>
           </div>
-          <h3 id="previewTitle" class="mt-1 truncate text-base font-semibold text-white"></h3>
+          <h3 id="previewTitle" class="mt-1.5 text-base font-semibold text-white sm:text-lg"></h3>
         </div>
-        <button id="previewClose" class="grid h-8 w-8 shrink-0 place-items-center rounded-lg border border-white/10 bg-white/5 text-slate-400 transition hover:border-violetx-500/40 hover:text-white">
+        <button id="previewClose" class="grid h-8 w-8 shrink-0 place-items-center rounded-lg border border-white/10 bg-white/5 text-slate-400 transition hover:border-violetx-500/40 hover:text-white" aria-label="Tutup preview">
           <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
         </button>
       </div>
 
-      <!-- Body (markdown) -->
+      <!-- Body (rendered markdown) -->
       <div class="flex-1 overflow-y-auto px-5 py-5 sm:px-8 sm:py-6">
         <div id="previewContent" class="markdown-body"></div>
       </div>
 
       <!-- Footer -->
-      <div class="flex items-center justify-between gap-3 border-t border-white/5 px-5 py-3">
-        <span id="previewProject" class="font-mono text-[10px] text-slate-500"></span>
-        <a id="previewGithubLink" href="#" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 rounded-lg border border-violetx-500/30 bg-violetx-500/10 px-3 py-1.5 text-[11px] font-medium text-violetx-400 transition hover:border-violetx-500/60 hover:bg-violetx-500/20">
+      <div class="flex items-center justify-between gap-3 border-t border-white/5 px-5 py-3 text-xs">
+        <span id="previewFooterInfo" class="font-mono text-[11px] text-slate-500"></span>
+        <a id="previewRawLink" href="#" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 rounded-lg border border-violetx-500/30 bg-violetx-500/10 px-3 py-1.5 text-[11px] font-medium text-violetx-400 transition hover:border-violetx-500/60 hover:bg-violetx-500/20">
           <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
-          Buka file asli
+          Buka File Asli
         </a>
       </div>
     </div>
   </div>
 
-  <!-- ================= DATA + LOGIC ================= -->
+  <!-- ================= SCRIPT & AUTO-DETECTION LOGIC ================= -->
   <script>
     /* =========================================================
-       DATA ADR
-       Tambahkan / ubah entri di sini.
-       - project : "management-sales" | "neurabook"
-       - id      : nomor ADR, mis. "ADR-001"
-       - title   : judul keputusan
-       - status  : "Accepted" | "Proposed" | "Rejected" | "Superseded"
-       - date    : tanggal keputusan (YYYY-MM-DD)
-       - tags    : array string
-       - summary : ringkasan 1-2 kalimat
-       - url     : link ke file .md di GitHub (boleh relative: "adr/management-sales/ADR-1001-xxx.md")
-       - content : (opsional) konten markdown untuk preview. Jika kosong, akan menampilkan placeholder.
-       - supersedes     : (opsional) id ADR yang digantikan
-       - supersededBy   : (opsional) id ADR yang menggantikan
+       1. HELPER: FORMATTING
+       Hilangkan tanda hubung (-) dan buat huruf pertama tiap kata kapital.
+       Contoh:
+       - 'management-sales' -> 'Management Sales'
+       - 'ADR-1001-return-product-feature.md' -> 'ADR 1001 Return Product Feature'
        ========================================================= */
-    const ADR_DATA = [
-      // ---------- management-sales ----------
-      {
-        project: "management-sales",
-        id: "ADR-1001",
-        title: "Desain Fitur Return Product",
-        status: "Accepted",
-        date: "2026-09-01",
-        tags: ["sales", "return-product", "sppb", "data-structure"],
-        summary: "Mengubah input retur dari upload multi-image menjadi input terstruktur per item produk dengan sistem klasifikasi yang fleksibel per SPPB.",
-        url: "adr/management-sales/ADR-1001-return-product-feature.md",
-        content: `# ADR-1001: Desain Fitur Return Product
+    function formatDisplayName(rawName) {
+      if (!rawName) return '';
+      // Hapus ekstensi .md
+      const clean = rawName.replace(/\.md$/i, '');
+      // Pisahkan berdasarkan tanda hubung (-), garis bawah (_), atau spasi
+      const words = clean.split(/[-_\s]+/).filter(Boolean);
 
-## Status
-**Accepted** — 2026-09-01
+      const ACRONYMS = new Set(['ADR', 'API', 'DB', 'AI', 'UI', 'UX', 'SPPB', 'REST', 'CRUD', 'TTL', 'ID']);
 
-## Konteks
-Proses retur produk saat ini menggunakan upload multi-image yang tidak terstruktur. Hal ini menyulitkan validasi, pelacakan per item, dan integrasi dengan sistem SPPB (Surat Perintah Pengeluaran Barang).
+      return words.map((w) => {
+        const upper = w.toUpperCase();
+        if (ACRONYMS.has(upper)) return upper;
+        if (/^\d+$/.test(w)) return w; // Biarkan angka tetap
+        return w.charAt(0).toUpperCase() + w.slice(1).toLowerCase();
+      }).join(' ');
+    }
 
-## Keputusan
-Kami mengubah input retur menjadi **input terstruktur per item produk** dengan sistem klasifikasi yang fleksibel per SPPB.
+    const escapeHtml = (str = '') =>
+      String(str).replace(/[&<>"']/g, (m) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m]));
 
-### Detail Perubahan
-- Setiap item retur dicatat secara individual (produk, jumlah, alasan, kondisi).
-- Klasifikasi retur dapat dikonfigurasi per SPPB.
-- Upload gambar tetap didukung, tetapi sebagai lampiran per item, bukan sekadar kumpulan gambar.
+    /* =========================================================
+       2. REPOSITORY & TREE AUTO-DETECTION
+       Mendeteksi folder dan file markdown secara otomatis:
+       - Mode 1: GitHub Trees API (jika online / GitHub Pages)
+       - Mode 2: Local HTTP directory listing crawl (jika python -m http.server / local server)
+       - Mode 3: Built-in manifest fallback (jika offline / file://)
+       ========================================================= */
+    const GITHUB_DEFAULT_REPO = 'sasmitadn/architecture-notes';
 
-## Konsekuensi
-### Positif
-- Validasi data lebih ketat dan akurat.
-- Pelacakan retur per item menjadi lebih mudah.
-- Integrasi dengan SPPB lebih terstruktur.
-
-### Negatif
-- Perlu migrasi data retur lama.
-- UI form menjadi lebih kompleks.
-
-## Alternatif yang Ditolak
-- **Tetap menggunakan upload multi-image**: ditolak karena tidak menyelesaikan masalah validasi dan pelacakan.
-`
-      },
-      {
-        project: "management-sales",
-        id: "ADR-1002",
-        title: "Offline-First Form untuk Return Product",
-        status: "Accepted",
-        date: "2026-09-15",
-        tags: ["offline-first", "return-product", "local-storage", "sync"],
-        summary: "Menerapkan arsitektur offline-first dengan local storage dan background sync agar data dan foto retur tidak hilang akibat koneksi tidak stabil.",
-        url: "adr/management-sales/ADR-1002-offline-first-form.md",
-        content: `# ADR-1002: Offline-First Form untuk Return Product
-
-## Status
-**Accepted** — 2026-09-15
-
-## Konteks
-Petugas lapangan sering mengalami koneksi internet yang tidak stabil saat menginput retur produk. Data yang sudah diisi bisa hilang jika koneksi terputus sebelum tersimpan ke server.
-
-## Keputusan
-Menerapkan arsitektur **offline-first** dengan:
-- Penyimpanan lokal (IndexedDB / localStorage) untuk draft form dan foto.
-- Background sync otomatis ketika koneksi tersedia.
-- Indikator status sinkronisasi yang jelas.
-
-## Konsekuensi
-### Positif
-- Data retur tidak hilang saat koneksi terputus.
-- Pengalaman pengguna lebih baik di lapangan.
-- Mengurangi beban server karena sinkronisasi bertahap.
-
-### Negatif
-- Kompleksitas penanganan konflik data.
-- Perlu mekanisme retry dan notifikasi kegagalan sync.
-
-## Implementasi
-- Gunakan library seperti \`localforage\` atau IndexedDB wrapper.
-- Antrian sinkronisasi dengan status: \`pending\`, \`syncing\`, \`synced\`, \`failed\`.
-`
-      },
-
-      // ---------- neurabook ----------
-      {
-        project: "neurabook",
-        id: "ADR-0001",
-        title: "Offline DB-First (Ditolak)",
-        status: "Rejected",
-        date: "2025-09-01",
-        tags: ["architecture", "storage", "offline"],
-        summary: "Menolak pendekatan offline DB-first sebagai arsitektur utama untuk menghindari risiko kehilangan data permanen dan biaya maintenance jangka panjang.",
-        url: "adr/neurabook/0001-offline-db-first-rejected.md",
-        content: `# ADR-0001: Offline DB-First (Ditolak)
-
-## Status
-**Rejected** — 2025-09-01
-
-## Konteks
-Diusulkan pendekatan **offline DB-first** di mana database lokal menjadi sumber kebenaran utama, dan server hanya sebagai sinkronisasi.
-
-## Keputusan
-Menolak pendekatan ini sebagai arsitektur utama.
-
-## Alasan
-1. **Risiko kehilangan data permanen** — jika perangkat rusak/hilang sebelum sync, data hilang.
-2. **Biaya maintenance tinggi** — perlu menangani konflik, migrasi skema di banyak perangkat, dan versioning.
-3. **Kompleksitas debugging** — sulit melacak sumber kebenaran data.
-4. **Tidak sesuai kebutuhan** — mayoritas pengguna NeuraBook memiliki koneksi yang cukup stabil.
-
-## Alternatif
-Menggunakan pendekatan **server-based dengan local cache** (lihat ADR-0002 dan ADR-0003).
-`
-      },
-      {
-        project: "neurabook",
-        id: "ADR-0002",
-        title: "Server-Based dengan Laravel + Filament + Orion",
-        status: "Accepted",
-        date: "2025-12-01",
-        tags: ["backend", "framework", "api", "laravel"],
-        summary: "Membangun backend NeuraBook menggunakan Laravel, Filament untuk admin panel, dan Orion untuk auto-generate REST API sebagai single source of truth.",
-        url: "adr/neurabook/0002-server-based-laravel-filament-orion.md",
-        content: `# ADR-0002: Server-Based dengan Laravel + Filament + Orion
-
-## Status
-**Accepted** — 2025-12-01
-
-## Konteks
-NeuraBook memerlukan backend yang:
-- Menjadi **single source of truth**.
-- Cepat dikembangkan.
-- Memiliki admin panel yang powerful.
-- Menyediakan REST API untuk client.
-
-## Keputusan
-Menggunakan stack:
-- **Laravel** — framework PHP utama.
-- **Filament** — admin panel dan CRUD generator.
-- **Orion** — auto-generate REST API dari Eloquent model.
-
-## Konsekuensi
-### Positif
-- Pengembangan cepat karena konvensi Laravel.
-- Admin panel siap pakai dengan Filament.
-- API konsisten dan terdokumentasi otomatis dengan Orion.
-- Ekosistem besar dan komunitas aktif.
-
-### Negatif
-- Terikat pada ekosistem PHP/Laravel.
-- Perlu pembelajaran Orion untuk kustomisasi API.
-
-## Alternatif yang Ditolak
-- **Node.js + NestJS**: ditolak karena tim lebih familiar dengan Laravel.
-- **Offline DB-first**: sudah ditolak di ADR-0001.
-`
-      },
-      {
-        project: "neurabook",
-        id: "ADR-0003",
-        title: "Local Cache untuk Data Referensi",
-        status: "Accepted",
-        date: "2026-01-01",
-        tags: ["caching", "performance", "ux", "local-storage"],
-        summary: "Menyimpan data referensi di local storage client untuk memangkas latency render, menghemat bandwidth, dan mengurangi beban request ke server.",
-        url: "adr/neurabook/0003-local-cache-for-reference-data.md",
-        content: `# ADR-0003: Local Cache untuk Data Referensi
-
-## Status
-**Accepted** — 2026-01-01
-
-## Konteks
-Data referensi (kategori, satuan, daftar akun, dll.) jarang berubah tetapi sering diminta oleh client. Setiap request ke server menambah latency dan beban.
-
-## Keputusan
-Menyimpan data referensi di **local storage** client dengan strategi:
-- Cache-first, network-fallback.
-- TTL (time-to-live) yang dapat dikonfigurasi.
-- Invalidasi cache saat ada pembaruan dari admin.
-
-## Konsekuensi
-### Positif
-- Render lebih cepat (tidak menunggu network).
-- Menghemat bandwidth.
-- Mengurangi beban request ke server.
-
-### Negatif
-- Risiko data stale jika invalidasi gagal.
-- Perlu mekanisme versioning cache.
-
-## Implementasi
-- Gunakan \`localStorage\` atau \`IndexedDB\` untuk dataset besar.
-- Simpan metadata \`version\` dan \`lastFetched\`.
-- Sediakan endpoint \`/api/reference/version\` untuk cek pembaruan.
-`
-      },
-      {
-        project: "neurabook",
-        id: "ADR-0004",
-        title: "AI-Based Natural Language Input",
-        status: "Accepted",
-        date: "2026-01-15",
-        tags: ["ux", "ai", "input", "nlp"],
-        summary: "Menyediakan input berbasis teks bebas atau suara di home screen yang otomatis di-parse oleh AI menjadi transaksi terstruktur.",
-        url: "adr/neurabook/0004-ai-based-natural-language-input.md",
-        content: `# ADR-0004: AI-Based Natural Language Input
-
-## Status
-**Accepted** — 2026-01-15
-
-## Konteks
-Pengguna ingin mencatat transaksi dengan cepat tanpa harus mengisi form yang panjang. Input manual dianggap menghambat adopsi.
-
-## Keputusan
-Menyediakan **input berbasis teks bebas atau suara** di home screen. AI akan mem-parsing input menjadi transaksi terstruktur (jumlah, kategori, tanggal, catatan).
-
-## Contoh
-> "Makan siang 50 ribu di warteg kemarin"
-
-Akan diparse menjadi:
-- Jumlah: 50000
-- Kategori: Makanan
-- Tanggal: kemarin (relatif)
-- Catatan: Makan siang di warteg
-
-## Konsekuensi
-### Positif
-- Input lebih cepat dan natural.
-- Meningkatkan adopsi pengguna.
-- Diferensiasi fitur dibanding kompetitor.
-
-### Negatif
-- Ketergantungan pada layanan AI (biaya, latency, privasi).
-- Perlu fallback ke input manual jika parsing gagal.
-- Akurasi parsing perlu terus ditingkatkan.
-
-## Alternatif yang Ditolak
-- **Hanya form manual**: ditolak karena menghambat kecepatan input.
-- **Rule-based parser**: ditolak karena tidak fleksibel untuk bahasa natural.
-`
+    function getRepoFromLocation() {
+      if (window.location.hostname.endsWith('github.io')) {
+        const pathParts = window.location.pathname.split('/').filter(Boolean);
+        const user = window.location.hostname.split('.')[0];
+        if (pathParts.length > 0) {
+          return `${user}/${pathParts[0]}`;
+        }
       }
+      return GITHUB_DEFAULT_REPO;
+    }
+
+    const FALLBACK_PATHS = [
+      'adr/management-sales/ADR-1002-offline-first-form.md',
+      'adr/management-sales/ADR-1001-return-product-feature.md',
+      'adr/neurabook/0004-ai-based-natural-language-input.md',
+      'adr/neurabook/0003-local-cache-for-reference-data.md',
+      'adr/neurabook/0002-server-based-laravel-filament-orion.md',
+      'adr/neurabook/0001-offline-db-first-rejected.md',
+      'adr/neurabook/README.md'
     ];
 
-    /* ---------- Project meta (label & warna aksen) ---------- */
-    const PROJECT_META = {
-      "management-sales": {
-        label: "Management Sales",
-        desc: "Domain sales, retur produk, dan operasional lapangan.",
-        accent: "from-violetx-500 to-fuchsia-500",
-        icon: '<path d="M3 3v18h18"/><path d="m7 14 4-4 3 3 5-6"/>'
-      },
-      "neurabook": {
-        label: "Neurabook",
-        desc: "Platform pencatatan keuangan cerdas berbasis AI & server architecture.",
-        accent: "from-violetx-600 to-indigo-500",
-        icon: '<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z"/>'
-      }
-    };
+    function processTreePaths(paths) {
+      const folderMap = new Map();
 
-    /* ---------- Helpers ---------- */
-    const statusClass = (status) => ({
-      "Accepted": "badge-accepted",
-      "Superseded": "badge-superseded",
-      "Proposed": "badge-proposed",
-      "Rejected": "badge-rejected",
-    }[status] || "badge-superseded");
+      paths.forEach((fullPath) => {
+        const normalized = fullPath.replace(/^\.?\//, '');
+        if (!normalized.startsWith('adr/')) return;
+        const parts = normalized.split('/');
+        if (parts.length < 3) return; // Butuh minimal adr/<folder>/<file.md>
+        const folder = parts[1];
+        const filename = parts.slice(2).join('/');
 
-    const formatDate = (iso) => {
-      const d = new Date(iso + "T00:00:00");
-      return d.toLocaleDateString("id-ID", { day: "2-digit", month: "short", year: "numeric" });
-    };
+        if (!filename.toLowerCase().endsWith('.md')) return;
 
-    const escapeHtml = (str = "") =>
-      str.replace(/[&<>"']/g, (m) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[m]));
+        if (!folderMap.has(folder)) {
+          folderMap.set(folder, {
+            folderName: folder,
+            folderDisplayName: formatDisplayName(folder),
+            files: [],
+            readmeFile: null,
+          });
+        }
 
-    /* ---------- State ---------- */
-    let activeProject = "all";
-    let searchTerm = "";
+        const group = folderMap.get(folder);
 
-    /* ---------- Render ---------- */
-    function render() {
-      const container = document.getElementById("adrContainer");
-      const emptyState = document.getElementById("emptyState");
-
-      const filtered = ADR_DATA.filter((adr) => {
-        const matchProject = activeProject === "all" || adr.project === activeProject;
-        const haystack = `${adr.id} ${adr.title} ${adr.tags.join(" ")} ${adr.summary}`.toLowerCase();
-        const matchSearch = haystack.includes(searchTerm.toLowerCase());
-        return matchProject && matchSearch;
+        if (filename.toLowerCase() === 'readme.md') {
+          group.readmeFile = {
+            filename: filename,
+            displayName: `${group.folderDisplayName} Readme`,
+            path: normalized,
+            folder: folder,
+          };
+        } else {
+          group.files.push({
+            filename: filename,
+            displayName: formatDisplayName(filename),
+            path: normalized,
+            folder: folder,
+          });
+        }
       });
 
-      if (filtered.length === 0) {
-        container.innerHTML = "";
-        emptyState.classList.remove("hidden");
-        document.getElementById("totalCount").textContent = 0;
-        return;
+      // Urutkan file berdasarkan nama secara DESCENDING (yang paling bawah show di atas)
+      folderMap.forEach((group) => {
+        group.files.sort((a, b) =>
+          b.filename.localeCompare(a.filename, undefined, { numeric: true, sensitivity: 'base' })
+        );
+      });
+
+      // Urutkan folder secara alfabetis
+      return Array.from(folderMap.values()).sort((a, b) =>
+        a.folderDisplayName.localeCompare(b.folderDisplayName)
+      );
+    }
+
+    async function detectAdrData() {
+      // Strategi 1: GitHub API Trees
+      try {
+        const repo = getRepoFromLocation();
+        const res = await fetch(`https://api.github.com/repos/${repo}/git/trees/main?recursive=1`, {
+          headers: { Accept: 'application/vnd.github.v3+json' },
+        });
+        if (res.ok) {
+          const data = await res.json();
+          if (data && Array.isArray(data.tree)) {
+            const paths = data.tree
+              .filter((item) => item.type === 'blob' && item.path.startsWith('adr/') && item.path.endsWith('.md'))
+              .map((item) => item.path);
+            if (paths.length > 0) {
+              return processTreePaths(paths);
+            }
+          }
+        }
+      } catch (err) {
+        console.warn('GitHub Trees API tidak dapat dijangkau, mencoba local crawl...', err);
       }
-      emptyState.classList.add("hidden");
 
-      // group by project
-      const grouped = filtered.reduce((acc, adr) => {
-        (acc[adr.project] ||= []).push(adr);
-        return acc;
-      }, {});
+      // Strategi 2: Local HTTP server crawling (mis. Python SimpleHTTPRequestHandler)
+      try {
+        const res = await fetch('adr/');
+        if (res.ok) {
+          const html = await res.text();
+          const parser = new DOMParser();
+          const doc = parser.parseFromString(html, 'text/html');
+          const links = Array.from(doc.querySelectorAll('a'))
+            .map((a) => a.getAttribute('href'))
+            .filter(Boolean);
 
-      // sort each group by date desc
-      Object.values(grouped).forEach((arr) => arr.sort((a, b) => (a.date < b.date ? 1 : -1)));
+          const subdirs = links
+            .map((href) => href.replace(/^\.\//, '').replace(/\/$/, ''))
+            .filter((name) => name && !name.startsWith('.') && !name.includes('..') && !name.includes('.'));
 
-      let html = "";
-      let counter = 0;
+          if (subdirs.length > 0) {
+            const allFound = [];
+            for (const dir of subdirs) {
+              try {
+                const subRes = await fetch(`adr/${dir}/`);
+                if (subRes.ok) {
+                  const subHtml = await subRes.text();
+                  const subDoc = parser.parseFromString(subHtml, 'text/html');
+                  const fileLinks = Array.from(subDoc.querySelectorAll('a'))
+                    .map((a) => a.getAttribute('href'))
+                    .filter((href) => href && href.endsWith('.md'));
+                  for (const f of fileLinks) {
+                    const cleanFile = f.split('/').pop();
+                    allFound.push(`adr/${dir}/${cleanFile}`);
+                  }
+                }
+              } catch (_) {}
+            }
+            if (allFound.length > 0) {
+              return processTreePaths(allFound);
+            }
+          }
+        }
+      } catch (err) {
+        console.warn('Local crawler tidak dapat dijalankan, memakai fallback manifest...', err);
+      }
 
-      for (const [project, items] of Object.entries(grouped)) {
-        const meta = PROJECT_META[project] || { label: project, desc: "", accent: "from-violetx-500 to-violetx-700", icon: "" };
+      // Strategi 3: Fallback bawaan
+      return processTreePaths(FALLBACK_PATHS);
+    }
+
+    /* =========================================================
+       3. STATE & DATA MANAGEMENT
+       ========================================================= */
+    let detectedSections = []; // Array group per folder
+    let activeFolderFilter = 'all';
+    let searchTerm = '';
+    const contentCache = new Map(); // Cache in-memory untuk isi file markdown
+
+    async function fetchMarkdownContent(filePath) {
+      if (contentCache.has(filePath)) {
+        return contentCache.get(filePath);
+      }
+      const res = await fetch(filePath);
+      if (!res.ok) {
+        throw new Error(`Gagal memuat file (${res.status} ${res.statusText})`);
+      }
+      const text = await res.text();
+      contentCache.set(filePath, text);
+      return text;
+    }
+
+    // Prefetch isi file di background agar saat diklik langsung instan
+    function prefetchDetectedFiles(sections) {
+      sections.forEach((group) => {
+        group.files.forEach((file) => {
+          if (!contentCache.has(file.path)) {
+            fetchMarkdownContent(file.path).catch(() => {});
+          }
+        });
+        if (group.readmeFile && !contentCache.has(group.readmeFile.path)) {
+          fetchMarkdownContent(group.readmeFile.path).catch(() => {});
+        }
+      });
+    }
+
+    /* =========================================================
+       4. RENDER UI
+       ========================================================= */
+    // Folder accent colors untuk ikon visual menarik
+    const ACCENT_COLORS = [
+      'from-violetx-500 to-fuchsia-500 shadow-violetx-700/25',
+      'from-violetx-600 to-indigo-500 shadow-indigo-700/25',
+      'from-purple-500 to-pink-500 shadow-purple-700/25',
+      'from-indigo-500 to-cyan-500 shadow-indigo-700/25',
+    ];
+
+    function renderFilterButtons() {
+      const container = document.getElementById('folderFilters');
+      let html = `
+        <button data-folder="all" class="folder-filter-btn ${activeFolderFilter === 'all' ? 'active border-violetx-500/50 bg-violetx-500/15 text-violetx-400' : 'border-white/10 bg-white/5 text-slate-300'} rounded-xl border px-3.5 py-2 text-xs font-medium transition hover:border-violetx-500/40 hover:text-white">
+          Semua
+        </button>
+      `;
+
+      detectedSections.forEach((group) => {
+        const isActive = activeFolderFilter === group.folderName;
         html += `
+          <button data-folder="${escapeHtml(group.folderName)}" class="folder-filter-btn ${isActive ? 'active border-violetx-500/50 bg-violetx-500/15 text-violetx-400' : 'border-white/10 bg-white/5 text-slate-300'} rounded-xl border px-3.5 py-2 text-xs font-medium transition hover:border-violetx-500/40 hover:text-white">
+            ${escapeHtml(group.folderDisplayName)}
+          </button>
+        `;
+      });
+
+      container.innerHTML = html;
+    }
+
+    function renderSections() {
+      const sectionsContainer = document.getElementById('sectionsContainer');
+      const emptyState = document.getElementById('emptyState');
+      const term = searchTerm.trim().toLowerCase();
+
+      let totalVisibleFiles = 0;
+      let totalVisibleFolders = 0;
+      let sectionsHtml = '';
+
+      detectedSections.forEach((group, groupIdx) => {
+        // Cek filter folder
+        if (activeFolderFilter !== 'all' && activeFolderFilter !== group.folderName) {
+          return;
+        }
+
+        // Filter file berdasarkan pencarian (nama file atau nama folder)
+        const matchedFiles = group.files.filter((file) => {
+          if (!term) return true;
+          const searchHaystack = `${file.displayName} ${file.filename} ${group.folderDisplayName} ${group.folderName}`.toLowerCase();
+          return searchHaystack.includes(term);
+        });
+
+        if (matchedFiles.length === 0) return;
+
+        totalVisibleFolders++;
+        totalVisibleFiles += matchedFiles.length;
+
+        const accent = ACCENT_COLORS[groupIdx % ACCENT_COLORS.length];
+
+        sectionsHtml += `
           <section class="animate-fade-up">
-            <!-- Project header -->
-            <div class="mb-5 flex items-center gap-4">
-              <div class="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-gradient-to-br ${meta.accent} shadow-lg shadow-violetx-700/25 ring-1 ring-white/10">
-                <svg class="h-5 w-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${meta.icon}</svg>
+            <!-- Section Header -->
+            <div class="mb-5 flex flex-wrap items-center justify-between gap-3 border-b border-white/5 pb-4">
+              <div class="flex items-center gap-3.5">
+                <div class="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-gradient-to-br ${accent} shadow-lg ring-1 ring-white/10">
+                  <svg class="h-5 w-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.93a2 2 0 0 1-1.66-.9l-.82-1.2A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13c0 1.1.9 2 2 2Z"/>
+                  </svg>
+                </div>
+                <div>
+                  <h3 class="flex items-center gap-2 text-lg font-semibold text-white">
+                    ${escapeHtml(group.folderDisplayName)}
+                    <span class="rounded-full border border-white/10 bg-white/5 px-2 py-0.5 font-mono text-[10px] font-normal text-slate-400">adr/${escapeHtml(group.folderName)}</span>
+                  </h3>
+                  <p class="text-xs text-slate-400">${matchedFiles.length} dokumen keputusan (descending)</p>
+                </div>
               </div>
-              <div class="min-w-0">
-                <h3 class="flex items-center gap-2 text-lg font-semibold text-white">
-                  ${escapeHtml(meta.label)}
-                  <span class="rounded-full border border-white/10 bg-white/5 px-2 py-0.5 font-mono text-[10px] font-normal text-slate-400">${escapeHtml(project)}</span>
-                </h3>
-                <p class="text-xs text-slate-400">${escapeHtml(meta.desc)} · ${items.length} ADR</p>
-              </div>
+
+              ${group.readmeFile ? `
+                <button
+                  data-file-path="${escapeHtml(group.readmeFile.path)}"
+                  data-display-name="${escapeHtml(group.readmeFile.displayName)}"
+                  data-folder-name="${escapeHtml(group.folderDisplayName)}"
+                  class="preview-trigger inline-flex items-center gap-1.5 rounded-lg border border-white/10 bg-white/5 px-3 py-1.5 text-xs text-slate-300 transition hover:border-violetx-500/40 hover:bg-violetx-500/10 hover:text-white"
+                >
+                  <svg class="h-3.5 w-3.5 text-violetx-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+                  Lihat Readme Folder
+                </button>
+              ` : ''}
             </div>
 
-            <!-- Cards -->
-            <div class="grid gap-4 md:grid-cols-2">
-              ${items.map((adr) => {
-                counter++;
-                const tags = adr.tags.map((t) => `<span class="rounded-md border border-white/5 bg-white/5 px-2 py-0.5 font-mono text-[10px] text-slate-400">#${escapeHtml(t)}</span>`).join("");
-                const supersedes = adr.supersedes
-                  ? `<span class="inline-flex items-center gap-1 rounded-md border border-amber-500/30 bg-amber-500/10 px-2 py-0.5 text-[10px] font-medium text-amber-300">
-                       <svg class="h-3 w-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 14 4 9l5-5"/><path d="M4 9h10a6 6 0 0 1 6 6v5"/></svg>
-                       supersedes ${escapeHtml(adr.supersedes)}
-                     </span>`
-                  : "";
-                const supersededBy = adr.supersededBy
-                  ? `<span class="inline-flex items-center gap-1 rounded-md border border-slate-500/30 bg-slate-500/10 px-2 py-0.5 text-[10px] font-medium text-slate-300">
-                       <svg class="h-3 w-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 10 5 5-5 5"/><path d="M20 15H10a6 6 0 0 1-6-6V4"/></svg>
-                       superseded by ${escapeHtml(adr.supersededBy)}
-                     </span>`
-                  : "";
-
-                return `
-                  <a href="${escapeHtml(adr.url)}"
-                     data-adr-id="${escapeHtml(adr.id)}"
-                     class="adr-card card-glow group relative flex flex-col gap-3 rounded-2xl border border-white/5 bg-ink-700/50 p-5 transition duration-300 hover:-translate-y-1 hover:bg-ink-700/80">
-
-                    <!-- top row -->
-                    <div class="flex items-start justify-between gap-3">
+            <!-- List Files (Cards) -->
+            <div class="grid gap-3.5 sm:grid-cols-2">
+              ${matchedFiles.map((file) => `
+                <div
+                  data-file-path="${escapeHtml(file.path)}"
+                  data-display-name="${escapeHtml(file.displayName)}"
+                  data-folder-name="${escapeHtml(group.folderDisplayName)}"
+                  class="preview-trigger card-glow group relative flex cursor-pointer flex-col justify-between rounded-xl border border-white/5 bg-ink-700/50 p-4 transition duration-300 hover:-translate-y-0.5 hover:border-violetx-500/40 hover:bg-ink-700/80"
+                  role="button"
+                  tabindex="0"
+                >
+                  <div>
+                    <!-- Top row: File Icon & Format badge -->
+                    <div class="flex items-center justify-between gap-2">
                       <div class="flex items-center gap-2">
-                        <span class="font-mono text-xs font-medium text-violetx-400">${escapeHtml(adr.id)}</span>
-                        <span class="h-1 w-1 rounded-full bg-slate-600"></span>
-                        <span class="text-xs text-slate-500">${formatDate(adr.date)}</span>
+                        <div class="grid h-7 w-7 place-items-center rounded-lg border border-white/10 bg-white/5 text-violetx-400 group-hover:border-violetx-500/40 group-hover:bg-violetx-500/15">
+                          <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                            <polyline points="14 2 14 8 20 8"/>
+                          </svg>
+                        </div>
+                        <span class="rounded-md border border-white/5 bg-white/5 px-2 py-0.5 font-mono text-[10px] text-slate-400">.md</span>
                       </div>
-                      <span class="shrink-0 rounded-full px-2.5 py-0.5 text-[10px] font-semibold ${statusClass(adr.status)}">${escapeHtml(adr.status)}</span>
-                    </div>
-
-                    <!-- title -->
-                    <h4 class="text-[15px] font-semibold leading-snug text-white transition group-hover:text-violetx-400">
-                      ${escapeHtml(adr.title)}
-                    </h4>
-
-                    <!-- summary -->
-                    <p class="line-clamp-2 text-xs leading-relaxed text-slate-400">${escapeHtml(adr.summary)}</p>
-
-                    <!-- tags -->
-                    <div class="flex flex-wrap gap-1.5">${tags}</div>
-
-                    <!-- supersede relations -->
-                    ${(supersedes || supersededBy) ? `<div class="flex flex-wrap gap-1.5 border-t border-white/5 pt-3">${supersedes}${supersededBy}</div>` : ""}
-
-                    <!-- footer -->
-                    <div class="mt-auto flex items-center justify-between border-t border-white/5 pt-3">
-                      <span class="font-mono text-[10px] text-slate-500">${escapeHtml(adr.project)}/${escapeHtml(adr.id.toLowerCase())}</span>
-                      <span class="inline-flex items-center gap-1 text-[11px] font-medium text-slate-400 transition group-hover:text-violetx-400">
-                        Lihat Preview
-                        <svg class="h-3.5 w-3.5 transition group-hover:translate-x-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                      <span class="inline-flex items-center gap-1 rounded-md border border-violetx-500/20 bg-violetx-500/10 px-2 py-0.5 font-mono text-[10px] font-medium text-violetx-300">
+                        Preview
                       </span>
                     </div>
-                  </a>
-                `;
-              }).join("")}
+
+                    <!-- Title (Formatted, no dashes, Title Case) -->
+                    <h4 class="mt-3 text-[14.5px] font-semibold leading-snug text-white transition group-hover:text-violetx-300">
+                      ${escapeHtml(file.displayName)}
+                    </h4>
+
+                    <!-- File path reference -->
+                    <p class="mt-1.5 truncate font-mono text-[11px] text-slate-500">
+                      ${escapeHtml(file.path)}
+                    </p>
+                  </div>
+
+                  <!-- Footer action callout -->
+                  <div class="mt-4 flex items-center justify-between border-t border-white/5 pt-2.5">
+                    <span class="font-mono text-[10px] text-slate-500">${escapeHtml(group.folderName)}</span>
+                    <span class="inline-flex items-center gap-1 text-[11px] font-medium text-slate-400 transition group-hover:text-violetx-300">
+                      Buka Dokumen
+                      <svg class="h-3.5 w-3.5 transition group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
+                      </svg>
+                    </span>
+                  </div>
+                </div>
+              `).join('')}
             </div>
           </section>
         `;
+      });
+
+      if (totalVisibleFiles === 0) {
+        sectionsContainer.innerHTML = '';
+        sectionsContainer.classList.add('hidden');
+        emptyState.classList.remove('hidden');
+      } else {
+        emptyState.classList.add('hidden');
+        sectionsContainer.innerHTML = sectionsHtml;
+        sectionsContainer.classList.remove('hidden');
       }
 
-      container.innerHTML = html;
-      document.getElementById("totalCount").textContent = counter;
+      document.getElementById('totalAdrCount').textContent = totalVisibleFiles;
+      document.getElementById('totalFolderCount').textContent = totalVisibleFolders;
 
-      // Attach click listeners to cards for preview
-      document.querySelectorAll(".adr-card").forEach((card) => {
-        card.addEventListener("click", (e) => {
-          e.preventDefault();
-          const adrId = card.dataset.adrId;
-          const adr = ADR_DATA.find((a) => a.id === adrId);
-          if (adr) openPreview(adr);
+      // Pasang event listener click untuk membuka preview
+      document.querySelectorAll('.preview-trigger').forEach((el) => {
+        el.addEventListener('click', () => {
+          const path = el.dataset.filePath;
+          const displayName = el.dataset.displayName;
+          const folderName = el.dataset.folderName;
+          openPreviewModal(path, displayName, folderName);
+        });
+        el.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            const path = el.dataset.filePath;
+            const displayName = el.dataset.displayName;
+            const folderName = el.dataset.folderName;
+            openPreviewModal(path, displayName, folderName);
+          }
         });
       });
     }
 
-    /* ---------- Preview Modal Logic ---------- */
-    const modal = document.getElementById("previewModal");
-    const modalPanel = document.getElementById("previewPanel");
-    const backdrop = document.getElementById("previewBackdrop");
-    const closeBtn = document.getElementById("previewClose");
-    const previewContent = document.getElementById("previewContent");
-    const previewTitle = document.getElementById("previewTitle");
-    const previewId = document.getElementById("previewId");
-    const previewDate = document.getElementById("previewDate");
-    const previewStatus = document.getElementById("previewStatus");
-    const previewProject = document.getElementById("previewProject");
-    const previewGithubLink = document.getElementById("previewGithubLink");
+    /* =========================================================
+       5. PREVIEW MODAL LOGIC
+       Saat file di-click, fetch content .md dan show preview rapi
+       ========================================================= */
+    const modal = document.getElementById('previewModal');
+    const modalPanel = document.getElementById('previewPanel');
+    const backdrop = document.getElementById('previewBackdrop');
+    const closeBtn = document.getElementById('previewClose');
+    const previewContent = document.getElementById('previewContent');
+    const previewTitle = document.getElementById('previewTitle');
+    const previewFolderBadge = document.getElementById('previewFolderBadge');
+    const previewFilePath = document.getElementById('previewFilePath');
+    const previewFooterInfo = document.getElementById('previewFooterInfo');
+    const previewRawLink = document.getElementById('previewRawLink');
 
-    function openPreview(adr) {
-      // Set header info
-      previewId.textContent = adr.id;
-      previewDate.textContent = formatDate(adr.date);
-      previewTitle.textContent = adr.title;
-      previewProject.textContent = `${adr.project}/${adr.id.toLowerCase()}`;
-      previewGithubLink.href = adr.url || "#";
-
-      // Status badge
-      previewStatus.textContent = adr.status;
-      previewStatus.className = "ml-1 shrink-0 rounded-full px-2.5 py-0.5 text-[10px] font-semibold " + statusClass(adr.status);
-
-      // Render markdown
-      let md = adr.content;
-      if (!md) {
-        md = `# ${adr.title}\n\n> **Preview tidak tersedia.**\n\nKonten markdown untuk ADR ini belum disertakan.\n\n---\n\n**Ringkasan:** ${adr.summary}\n\n**Tags:** ${adr.tags.map(t => `#${t}`).join(", ")}\n\n[Lihat file asli](${adr.url})`;
-      }
-
+    function renderMarkdown(mdText) {
       try {
-        const rawHtml = marked.parse(md);
-        const cleanHtml = DOMPurify.sanitize(rawHtml);
+        marked.setOptions({
+          gfm: true,
+          breaks: false,
+        });
+
+        const rawHtml = marked.parse(mdText);
+        const cleanHtml = DOMPurify.sanitize(rawHtml, {
+          ADD_ATTR: ['target', 'rel'],
+        });
         previewContent.innerHTML = cleanHtml;
+
+        // Syntax highlighting untuk code blocks
+        if (window.hljs) {
+          previewContent.querySelectorAll('pre code').forEach((block) => {
+            hljs.highlightElement(block);
+          });
+        }
+
+        // Tautan eksternal buka di tab baru
+        previewContent.querySelectorAll('a').forEach((link) => {
+          const href = link.getAttribute('href');
+          if (href && (href.startsWith('http://') || href.startsWith('https://'))) {
+            link.setAttribute('target', '_blank');
+            link.setAttribute('rel', 'noopener noreferrer');
+          }
+        });
       } catch (err) {
-        previewContent.innerHTML = `<p class="text-rose-400">Gagal memuat preview: ${escapeHtml(err.message)}</p>`;
+        previewContent.innerHTML = `<p class="text-rose-400">Gagal merender markdown: ${escapeHtml(err.message)}</p>`;
       }
-
-      // Show modal with animation
-      modal.classList.remove("hidden");
-      modal.classList.add("flex");
-      // Force reflow
-      void modal.offsetWidth;
-      modalPanel.classList.add("modal-enter-active");
-      modalPanel.classList.remove("modal-enter");
-
-      // Prevent body scroll
-      document.body.style.overflow = "hidden";
     }
 
-    function closePreview() {
-      modalPanel.classList.remove("modal-enter-active");
-      modalPanel.classList.add("modal-enter");
+    async function openPreviewModal(filePath, displayName, folderName) {
+      // Set header info
+      previewTitle.textContent = displayName || formatDisplayName(filePath.split('/').pop());
+      previewFolderBadge.textContent = folderName || 'ADR';
+      previewFilePath.textContent = filePath;
+      previewFooterInfo.textContent = filePath;
+      previewRawLink.href = filePath;
+
+      // Buka modal dengan animasi
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      void modal.offsetWidth;
+      modalPanel.classList.add('modal-enter-active');
+      modalPanel.classList.remove('modal-enter');
+      document.body.style.overflow = 'hidden';
+
+      // Reset scroll posisi konten modal
+      previewContent.parentElement.scrollTop = 0;
+
+      // Jika sudah ada di cache, render langsung instan
+      if (contentCache.has(filePath)) {
+        renderMarkdown(contentCache.get(filePath));
+        return;
+      }
+
+      // Tampilkan skeleton loading
+      previewContent.innerHTML = `
+        <div class="flex flex-col items-center justify-center py-16 text-slate-400 animate-fade-up">
+          <svg class="h-8 w-8 animate-spin text-violetx-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 12a9 9 0 1 1-6.219-8.56"/>
+          </svg>
+          <p class="mt-3 text-xs font-medium text-slate-300">Mengambil isi file markdown...</p>
+          <p class="mt-1 font-mono text-[10px] text-slate-500">${escapeHtml(filePath)}</p>
+        </div>
+      `;
+
+      try {
+        const mdText = await fetchMarkdownContent(filePath);
+        renderMarkdown(mdText);
+      } catch (err) {
+        previewContent.innerHTML = `
+          <div class="rounded-xl border border-rose-500/20 bg-rose-500/10 p-6 text-center animate-fade-up">
+            <div class="mx-auto grid h-12 w-12 place-items-center rounded-full bg-rose-500/20 text-rose-400">
+              <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/>
+              </svg>
+            </div>
+            <p class="mt-3 text-sm font-semibold text-rose-200">Gagal Memuat File</p>
+            <p class="mt-1 text-xs text-slate-400">
+              Tidak dapat mengambil isi file <code class="rounded bg-black/40 px-1.5 py-0.5 text-slate-300">${escapeHtml(filePath)}</code>
+            </p>
+            <p class="mt-2 text-[11px] text-slate-500">
+              ${window.location.protocol === 'file:' ? 'Browser membatasi fetch saat dibuka via file://. Buka via web server lokal (misal: python3 -m http.server) atau host di GitHub Pages.' : escapeHtml(err.message)}
+            </p>
+            <div class="mt-4 flex items-center justify-center gap-2">
+              <button id="retryBtn" class="inline-flex items-center gap-1.5 rounded-lg border border-violetx-500/40 bg-violetx-500/20 px-3 py-1.5 text-xs font-medium text-violetx-300 transition hover:bg-violetx-500/30">
+                <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/><path d="M3 21v-5h5"/></svg>
+                Coba Lagi
+              </button>
+              <a href="${escapeHtml(filePath)}" target="_blank" class="inline-flex items-center gap-1.5 rounded-lg border border-white/10 bg-white/5 px-3 py-1.5 text-xs text-slate-300 transition hover:text-white">
+                Buka Langsung
+              </a>
+            </div>
+          </div>
+        `;
+        document.getElementById('retryBtn')?.addEventListener('click', () => {
+          contentCache.delete(filePath);
+          openPreviewModal(filePath, displayName, folderName);
+        });
+      }
+    }
+
+    function closePreviewModal() {
+      modalPanel.classList.remove('modal-enter-active');
+      modalPanel.classList.add('modal-enter');
       setTimeout(() => {
-        modal.classList.add("hidden");
-        modal.classList.remove("flex");
-        document.body.style.overflow = "";
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+        document.body.style.overflow = '';
       }, 200);
     }
 
-    closeBtn.addEventListener("click", closePreview);
-    backdrop.addEventListener("click", closePreview);
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape" && !modal.classList.contains("hidden")) {
-        closePreview();
+    closeBtn.addEventListener('click', closePreviewModal);
+    backdrop.addEventListener('click', closePreviewModal);
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+        closePreviewModal();
       }
     });
 
-    // Initialize modal panel with enter class
-    modalPanel.classList.add("modal-enter");
+    modalPanel.classList.add('modal-enter');
 
-    /* ---------- Events ---------- */
-    document.getElementById("searchInput").addEventListener("input", (e) => {
+    /* =========================================================
+       6. FILTER & SEARCH EVENTS
+       ========================================================= */
+    document.getElementById('searchInput').addEventListener('input', (e) => {
       searchTerm = e.target.value;
-      render();
+      renderSections();
     });
 
-    document.getElementById("projectFilters").addEventListener("click", (e) => {
-      const btn = e.target.closest(".filter-btn");
+    document.getElementById('folderFilters').addEventListener('click', (e) => {
+      const btn = e.target.closest('.folder-filter-btn');
       if (!btn) return;
-      activeProject = btn.dataset.project;
+      activeFolderFilter = btn.dataset.folder;
 
-      document.querySelectorAll(".filter-btn").forEach((b) => {
-        b.classList.remove("active", "border-violetx-500/50", "bg-violetx-500/15", "text-violetx-400");
-        b.classList.add("border-white/10", "bg-white/5", "text-slate-300");
+      document.querySelectorAll('.folder-filter-btn').forEach((b) => {
+        b.classList.remove('active', 'border-violetx-500/50', 'bg-violetx-500/15', 'text-violetx-400');
+        b.classList.add('border-white/10', 'bg-white/5', 'text-slate-300');
       });
-      btn.classList.add("active", "border-violetx-500/50", "bg-violetx-500/15", "text-violetx-400");
-      btn.classList.remove("border-white/10", "bg-white/5", "text-slate-300");
+      btn.classList.add('active', 'border-violetx-500/50', 'bg-violetx-500/15', 'text-violetx-400');
+      btn.classList.remove('border-white/10', 'bg-white/5', 'text-slate-300');
 
-      render();
+      renderSections();
     });
 
-    /* ---------- Init ---------- */
-    document.getElementById("lastUpdated").textContent = new Date().toLocaleDateString("id-ID", {
-      day: "2-digit", month: "long", year: "numeric",
-    });
-    render();
+    /* =========================================================
+       7. INITIALIZATION
+       ========================================================= */
+    async function init() {
+      document.getElementById('lastUpdated').textContent = new Date().toLocaleDateString('id-ID', {
+        day: '2-digit', month: 'long', year: 'numeric',
+      });
+
+      // Deteksi struktur ADR
+      detectedSections = await detectAdrData();
+
+      // Sembunyikan loading state
+      document.getElementById('loadingState').classList.add('hidden');
+
+      // Render filter tabs & sections
+      renderFilterButtons();
+      renderSections();
+
+      // Prefetch file di background untuk respon instan
+      prefetchDetectedFiles(detectedSections);
+    }
+
+    init();
   </script>
 </body>
 </html>
